@@ -1,5 +1,7 @@
 # Vision-Based Navigation in ROS
-Vision-Based Navigation for Auto-Docking
+
+## Overview
+Vision-Based Navigation for Auto-Docking. 
 
 Please include the following reference when you use the toolbox:
 
