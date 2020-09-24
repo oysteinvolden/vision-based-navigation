@@ -71,14 +71,17 @@ This section is described to work with specific hardware.
   - GPIO connector:  [link](https://www.flir.co.uk/products/hirose-hr10-6-pin-circular-connector/).
   - Lidar: 
   - Nvidia Jetson Xavier:
+  
+  ![Hardware overview](doc/figures/hardware_design.png)
 
 
 ### Camera driver
-We use a ROS compatible [camera driver](https://github.com/neufieldrobotics/spinnaker_sdk_camera_driver). By this, the camera driver and the object detection pipeline can interchange data via ROS topics. Follow the instructions in this github repository to create a catkin workspace. 
-
-We use hardware triggering (GPIO connector) for stereo setup as described under "Multicamera Master-Slave Setup" in [github repo](https://github.com/neufieldrobotics/spinnaker_sdk_camera_driver). When GPIO cables are connected correctly, do the following:
+We use a ROS compatible [camera driver](https://github.com/neufieldrobotics/spinnaker_sdk_camera_driver). By this, the camera driver and the object detection pipeline can interchange data via ROS topics. Follow the instructions in this github repository to create a catkin workspace. We use hardware triggering (GPIO connector) for stereo setup as described under "Multicamera Master-Slave Setup" in [github repo](https://github.com/neufieldrobotics/spinnaker_sdk_camera_driver). When GPIO cables are connected correctly, do the following:
 
 - Change camera ids to serial numbers of the actual cameras in params/stereo_camera_example.yaml.
+- Make sure left camera is master camera (primary).
+- in launch/acquisition.launch, change from test_params.yaml to stereo_camera_example.yaml (line 22). 
+
 
 To launch the driver, open a terminal and type:
 
