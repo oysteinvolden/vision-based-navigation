@@ -76,6 +76,8 @@ This section shows the specific hardware in use.
   - DC/DC converters.
   - PoE adapters.
   
+  The figure below shows the power and ethernet interface between the hardware components and the On-Board System (OBS) for the USV.
+  
   ![Hardware overview](doc/figures/hardware_design.png)
 
 ## Basic usage
