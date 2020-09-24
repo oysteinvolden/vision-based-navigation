@@ -49,7 +49,7 @@ This repo also provide a quick solution to setup a catkin workspace by running t
 
       git clone https://github.com/AastaNV/JEP
       cd script
-      ./install_opencv4.1.1_Jetson.sh.
+      ./install_opencv4.1.1_Jetson.sh
  
 
 NB! There has been some issues when combining ROS melodic and OpenCV <= 4.x.x, so it may be safe to install OpenCV <= 3.4.x. We installed 3.4.3 by simply changing 4.1.1 with 3.4.3 everywhere in the sh file (install_opencv4.1.1_Jetson.sh).
