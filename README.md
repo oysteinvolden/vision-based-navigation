@@ -57,9 +57,18 @@ NB! There has been some issues when combining ROS melodic and OpenCV <= 4.x.x, s
 
 ### Install and configure vision-based navigation pipeline
 
-Create a catkin workspace and include our ROS package as well as ROS package for bridging opencv and ROS (vision_opencv):
+Create a catkin workspace and include our ROS package as well as ROS package for bridging opencv and ROS (vision_opencv).
 
-    mkdir -p catkin_ws/src
+    mkdir -p darknet_ws/darknet_ws1/src
+    cd catkin_ws/src
+    git clone https://github.com/oysteinvolden/vision-based-navigation.git
+    git clone --recursive https://github.com/ros-perception/vision_opencv.git 
+    cd ..
+    catkin_make -DCMAKE_BUILD_TYPE=Release
+    
+Repeat for a second ROS package (one per camera).
+    
+    mkdir -p darknet_ws/darknet_ws2/src
     cd catkin_ws/src
     git clone https://github.com/oysteinvolden/vision-based-navigation.git
     git clone --recursive https://github.com/ros-perception/vision_opencv.git 
@@ -79,10 +88,10 @@ It is assumed that trained model parameters and configuration (cfg) file is avai
 	- Put trained model parameters to the yolo_network_config/weights folder. 
 	- Put cfg file to the yolo_netowork_config/cfg folder
 	- Update yolov3-spp.yaml in the darknet_ros/config folder, i.e. update so name of config_file / weight_file / threshold / detection_classes are correct (those used in the yolo_network_config folder). 
-	- Update ros.yaml in the darknet_ros/config folder to subscribe for correct topic: The topic under "camera_reading" should match the ros topic name sent from the camera driver, e.g. /camera_array/cam0/image_raw or /camera_array/cam1/image_raw. 
+	- Update ros.yaml in the darknet_ros/config folder to subscribe for correct topic: The topic under "camera_reading" should match the ros topic name sent from the camera driver, e.g. /camera_array/cam0/image_raw or /camera_array/cam1/image_raw (one camera topic name for darknet_ws1 / darknet_ws2). 
 	- Check that darknet_ros.launch and yolov3-spp.launch in the darknet_ros/launch folder includes correct weights/cfg and yaml file (yolov3-spp.yaml). 
-
-Make sure you catkin_make again to build latest version. NB! Calibration parameters and camera resolution is defined in the source code. 
+	
+Make sure you catkin_make again to build latest version (for both darknet_ws1 and darknet_ws2). NB! Calibration parameters and camera resolution is defined in the source code. 
 
 
 ### Install and configure camera driver
@@ -163,20 +172,35 @@ To launch the driver, open a terminal and type:
 ### Launch vision-based navigation pipeline
 Open a terminal and type the following:
 
-	cd ~/darknet_ws
+	cd ~/darknet_ws/darknet_ws1
 	source devel/setup.bash
 	roslaunch darknet_ros yolov3-spp.launch
 	
 Go into a second terminal and type the following:
 	
-	cd ~/darknet_ws2
+	cd ~/darknet_ws/darknet_ws2
 	source devel/setup.bash
 	roslaunch darknet_ros yolov3-spp.launch
 	
-
+Hence, you have one ROS node per camera and they run simultaneously. 
 	
 
-	
+### ROS topics
+
+**Images**
+
+* **`/camera_array/cam0/image_raw`** ([sensor_msgs/Image])
+* **`/camera_array/cam1/image_raw`** ([sensor_msgs/Image])
+
+Original image data from a pair of FLIR blackfly S cameras. 
+ 
+  
+**Point cloud**
+
+* **`/os1_cloud_node/points`** ([sensor_msgs/Pointcloud2])
+
+    Original point cloud data from an Ouster Os1 lidar. 
+
 
 
 
