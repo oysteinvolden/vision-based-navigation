@@ -1,9 +1,7 @@
 # Vision-Based Navigation in ROS
 
 ## Overview
-This repo contains source code for vision-based navigation in ROS. We combine deep learning and traditional computer vision methods along with ArUco markers to obtain relative positioning between the camera and marker. Both monocular and stereo vision is used for comparison. It is tested with Ubuntu 18.04 LTS and ROS melodic on arm-based 64-bit architecture (Nvidia Jetson Xavier). 
-
-The figure below shows the high-level architecture with focus on stereo vision. 
+This repo contains source code for vision-based navigation in ROS. We combine deep learning and traditional computer vision methods along with ArUco markers to obtain relative positioning between the camera and marker. Both monocular and stereo vision is used for comparison. It is tested with Ubuntu 18.04 LTS and ROS melodic on arm-based 64-bit architecture (Nvidia Jetson Xavier). The figure below shows the high-level architecture with focus on stereo vision. 
 
 
 ![Pipeline overview](doc/figures/overview2.png)
@@ -25,6 +23,7 @@ Bibtex entry:
 ### Dependencies
 
 **CUDA**
+
 Cuda is preinstalled on Nvidia Jetson Xavier.
 
 **ROS**
@@ -78,6 +77,7 @@ Repeat for a second ROS package (one per camera).
 Building in release mode makes sure you maximize performance. 
 
 **Configuration**
+
 It is assumed that trained model parameters and configuration (cfg) file is available for YoloV3 (darknet). 
 
 - darknet folder:
@@ -102,6 +102,7 @@ We use a ROS compatible [camera driver](https://github.com/neufieldrobotics/spin
 - in launch/acquisition.launch, change from test_params.yaml to stereo_camera_example.yaml (line 22). 
 
 **Network configuration**
+
 We use persistant IP to maintain a stable connection, i.e. always reacable at the same IP address. We add an IP address on the 192.168.x.x subnet so we reach the cameras:
 
 	sudo ip a a 192.168.11.172 dev eth0
