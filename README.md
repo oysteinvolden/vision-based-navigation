@@ -1,7 +1,7 @@
 # Vision-Based Navigation in ROS
 
 ## Overview
-This repo contains source code for vision-based navigation in ROS. We combine deep learning and traditional computer vision methods along with ArUco markers to obtain relative positioning between the camera and marker. Both monocular and stereo vision is used for comparison. It is tested with Ubuntu 18.04 LTS and ROS melodic on arm-based 64-bit architecture (Nvidia Jetson Xavier). The figure below shows the high-level architecture with focus on stereo vision. 
+This repo contains source code for vision-based navigation in ROS. We combine deep learning and traditional computer vision methods along with ArUco markers to obtain relative positioning between the camera and the marker. Both monocular and stereo vision is used for comparison. It is tested with Ubuntu 18.04 LTS and ROS melodic on arm-based 64-bit architecture (Nvidia Jetson Xavier). The figure below shows the high-level architecture with focus on stereo vision. 
 
 
 ![Pipeline overview](doc/figures/overview2.png)
