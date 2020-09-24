@@ -4,7 +4,7 @@
 This repo contains source code for vision-based navigation in ROS. We combine deep learning and traditional computer vision methods along with ArUco markers to obtain relative positioning between the camera and marker. Both monocular and stereo vision is tested for comparison. The figure below shows the high-level architecture. 
 
 
-![Pipeline overview](doc/figures/overview.png)
+![Pipeline overview](doc/figures/overview2.png)
 
 
 Please include the following reference when you use the toolbox:
