@@ -73,9 +73,24 @@ Repeat to create a second ROS node (one per camera).
     git clone https://github.com/ros-perception/vision_opencv.git 
     cd ..
     catkin_make -DCMAKE_BUILD_TYPE=Release
+    
+NB! To be able to run two darknet_ros nodes in parallell, some modificaions for second darknet_ros node is neccessary.
 
-Building in release mode makes sure you maximize performance. 
+- Go into darknet_ros/launch/darknet_ros.launch and
+	- change "darknet_ros" to "darknet_ros2" at line 16 and 17 (ns=darknet_ros2)
+	- change "darknet_ros" to "darknet_ros2" at line 20. Only change name, keep pkg and type the same.
 
+- Go into darknet_ros/config/ros.yaml and
+	- change topic name for detection image from /darknet_ros/detection_image to /darknet_ros/detection_image2
+
+- Go into darknet_ros/src/YoloRosTracker.cpp and
+	- change from "ros::NodeHandle nh" to "ros::NodeHandle nh2" (Constructor)
+	- change "nodeHandle(nh)" to "nodeHandle(nh2)" (next line in the code) 
+
+- Go into darknet_ros/include/darknet_ros/YoloRosTracker.hpp and
+	- change from "explicit YoloRosTracker(ros::NodeHandle nh)" to "explicit YoloRosTracker(ros::NodeHandle nh2)".
+ 
+ 
 **Configuration**
 
 It is assumed that the trained weights and configuration (cfg) file is available for YoloV3 (darknet). 
