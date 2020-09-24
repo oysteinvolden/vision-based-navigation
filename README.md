@@ -3,6 +3,10 @@
 ## Overview
 Vision-Based Navigation for Auto-Docking. 
 
+
+![Pipeline overview](doc/figures/overview.png)
+
+
 Please include the following reference when you use the toolbox:
 Ø. Volden (2020)."Vision-Based Navigation in ROS". URL: https://github.com/oysteinvolden/vision-based-navigation
 
@@ -13,3 +17,6 @@ Bibtex entry:
   howpublished = {\url{https://github.com/oysteinvolden/vision-based-navigation}},
   year = {2020}
 }
+
+
+
