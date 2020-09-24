@@ -78,11 +78,11 @@ Building in release mode makes sure you maximize performance.
 
 **Configuration**
 
-It is assumed that trained model parameters and configuration (cfg) file is available for YoloV3 (darknet). 
+It is assumed that the trained model parameters and configuration (cfg) file is available for YoloV3 (darknet). 
 
 - darknet folder:
 	- Adjust Makefile such that GPU, Opencv, CuDNN, CuDNN_HALF and OpenMP is enabled (uncommented). 
-	- Also Enable jetson Xavier Arch and disable all other (in Makefile). 
+	- Also enable jetson Xavier Arch and disable all other (in Makefile). 
 
 - darknet_ros folder:
 	- Put trained model parameters to the yolo_network_config/weights folder. 
