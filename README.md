@@ -58,8 +58,8 @@ NB! There has been some issues when combining ROS melodic and OpenCV <= 4.x.x, s
 
 Create a catkin workspace and include our ROS package as well as ROS package for bridging opencv and ROS (vision_opencv).
 
-    mkdir -p darknet_ws/darknet_ws1/src
-    cd darknet_ws/darknet_ws1/src
+    mkdir -p darknet_ws/src
+    cd darknet_ws/src
     git clone --recursive https://github.com/oysteinvolden/vision-based-navigation.git
     git clone https://github.com/ros-perception/vision_opencv.git 
     cd ..
@@ -67,8 +67,8 @@ Create a catkin workspace and include our ROS package as well as ROS package for
     
 Repeat to create a second ROS node (one per camera).
     
-    mkdir -p darknet_ws/darknet_ws2/src
-    cd darknet_ws/darknet_ws2/src
+    mkdir -p darknet_ws2/src
+    cd darknet_ws2/src
     git clone --recursive https://github.com/oysteinvolden/vision-based-navigation.git
     git clone https://github.com/ros-perception/vision_opencv.git 
     cd ..
@@ -166,13 +166,13 @@ To launch the driver, open a terminal and type:
 ### Launch vision-based navigation pipeline
 Open a terminal and type the following:
 
-	cd ~/darknet_ws/darknet_ws1
+	cd ~/darknet_ws
 	source devel/setup.bash
 	roslaunch darknet_ros yolov3-spp.launch
 	
 Go into a second terminal and type the following:
 	
-	cd ~/darknet_ws/darknet_ws2
+	cd ~/darknet_ws2
 	source devel/setup.bash
 	roslaunch darknet_ros yolov3-spp.launch
 	
