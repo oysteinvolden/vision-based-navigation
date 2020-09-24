@@ -203,6 +203,7 @@ Original image data from a pair of FLIR blackfly S cameras.
     Original point cloud data from an Ouster Os1 lidar. 
 
 
+**Author: [Oystein Volden](https://www.ntnu.no/ansatte/oystv), oystein.volden@ntnu.no**
 
 
 **Credit: The pipeline is further extended and developed for 3D localization tasks based on relevant object detection frameworks such as [YOLO ROS: Real-Time Object Detection for ROS](https://github.com/leggedrobotics/darknet_ros) by Marko Bjelonic and [YOLO ROS: Real-Time Object Detection for ROS](https://github.com/pushkalkatara/darknet_ros) by Pushkal Katara.**
