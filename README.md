@@ -74,7 +74,7 @@ This section shows the specific hardware in use.
   - Lidar: [Ouster Os1](https://ouster.com/products/os1-lidar-sensor/).
   - PC: [Nvidia Jetson Xavier](https://developer.nvidia.com/embedded/jetson-agx-xavier-developer-kit).
   - DC/DC converters.
-  - PoE adapters.
+  - PoE adapters and switch. 
   
   The figure below shows the power and ethernet interface between the hardware components and the On-Board System (OBS) for the USV.
   
