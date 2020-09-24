@@ -74,7 +74,7 @@ Repeat to create a second ROS node (one per camera).
     cd ..
     catkin_make -DCMAKE_BUILD_TYPE=Release
     
-NB! To be able to run two darknet_ros nodes in parallell, some modificaions for second darknet_ros node is neccessary.
+NB! To be able to run two darknet_ros nodes in parallell, some modificaions for the second darknet_ros node is neccessary.
 
 - Go into darknet_ros/launch/darknet_ros.launch and
 	- change "darknet_ros" to "darknet_ros2" at line 16 and 17 (ns=darknet_ros2)
