@@ -1,7 +1,9 @@
 # Vision-Based Navigation in ROS
 
 ## Overview
-This repo contains source code for vision-based navigation in ROS. We combine deep learning and traditional computer vision methods along with ArUco markers to obtain relative positioning between the camera and marker. Both monocular and stereo vision is tested for comparison. The figure below shows the high-level architecture. 
+This repo contains source code for vision-based navigation in ROS. We combine deep learning and traditional computer vision methods along with ArUco markers to obtain relative positioning between the camera and marker. Both monocular and stereo vision is used for comparison. It is tested with Ubuntu 18.04 LTS and ROS melodic on arm-based 64-bit architecture (Nvidia Jetson Xavier). 
+
+The figure below shows the high-level architecture with focus on stereo vision. 
 
 
 ![Pipeline overview](doc/figures/overview2.png)
@@ -21,6 +23,9 @@ Bibtex entry:
 ## Installation
 
 ### Dependencies
+
+**CUDA**
+Cuda is preinstalled on Nvidia Jetson Xavier.
 
 **ROS**
 
@@ -50,18 +55,72 @@ This repo also provide a quick solution to setup a catkin workspace by running t
 
 NB! There has been some issues when combining ROS melodic and OpenCV <= 4.x.x, so it may be safe to install OpenCV <= 3.4.x. We installed 3.4.3 by simply changing 4.1.1 with 3.4.3 everywhere in the sh file (install_opencv4.1.1_Jetson.sh).
 
-### Create catkin workspace
+### Install and configure vision-based navigation pipeline
 
-Now, create a catkin workspace and include our ROS package as well as ROS package for bridging opencv and ROS (vision_opencv):
+Create a catkin workspace and include our ROS package as well as ROS package for bridging opencv and ROS (vision_opencv):
 
     mkdir -p catkin_ws/src
     cd catkin_ws/src
     git clone https://github.com/oysteinvolden/vision-based-navigation.git
-    git clone https://github.com/ros-perception/vision_opencv.git 
+    git clone --recursive https://github.com/ros-perception/vision_opencv.git 
     cd ..
     catkin_make -DCMAKE_BUILD_TYPE=Release
 
 Building in release mode makes sure you maximize performance. 
+
+**Configuration**
+It is assumed that trained model parameters and configuration (cfg) file is available for YoloV3 (darknet). 
+
+- darknet folder:
+	- Adjust Makefile such that GPU, Opencv, CuDNN, CuDNN_HALF and OpenMP is enabled (uncommented). 
+	- Also Enable jetson Xavier Arch and disable all other (in Makefile). 
+
+- darknet_ros folder:
+	- Put trained model parameters to the yolo_network_config/weights folder. 
+	- Put cfg file to the yolo_netowork_config/cfg folder
+	- Update yolov3-spp.yaml in the darknet_ros/config folder, i.e. update so name of config_file / weight_file / threshold / detection_classes are correct (those used in the yolo_network_config folder). 
+	- Update ros.yaml in the darknet_ros/config folder to subscribe for correct topic: The topic under "camera_reading" should match the ros topic name sent from the camera driver, e.g. /camera_array/cam0/image_raw or /camera_array/cam1/image_raw. 
+	- Check that darknet_ros.launch and yolov3-spp.launch in the darknet_ros/launch folder includes correct weights/cfg and yaml file (yolov3-spp.yaml). 
+
+Make sure you catkin_make again to build latest version. NB! Calibration parameters and camera resolution is defined in the source code. 
+
+
+### Install and configure camera driver
+We use a ROS compatible [camera driver](https://github.com/neufieldrobotics/spinnaker_sdk_camera_driver). By this, the camera driver and the object detection pipeline can interchange data via ROS topics. Follow the instructions in this github repository to create a catkin workspace. We use hardware triggering (GPIO connector) for stereo setup as described under "Multicamera Master-Slave Setup" in [github repo](https://github.com/neufieldrobotics/spinnaker_sdk_camera_driver). When GPIO cables are connected correctly, do the following:
+
+- Change camera ids to serial numbers of the actual cameras in params/stereo_camera_example.yaml.
+- Make sure left camera is master camera (primary).
+- in launch/acquisition.launch, change from test_params.yaml to stereo_camera_example.yaml (line 22). 
+
+**Network configuration**
+We use persistant IP to maintain a stable connection, i.e. always reacable at the same IP address. We add an IP address on the 192.168.x.x subnet so we reach the cameras:
+
+	sudo ip a a 192.168.11.172 dev eth0
+
+Then, go into bashrc file (gedit ~/.bashrc) and set ROS_IP to 192.168.x.x. 
+
+If neccessary, increase udp buffer limit (approx 1000 MB/s) by typing the following in terminal:
+
+	sudo sysctl -w net.core.rmem_max=1000214400 
+	sudo sysctl -w net.core.rmem_default=1000214400 
+	
+If neccessary, increase usb buffer limit (approx 1000 MB/s) by typing the following in terminal:
+
+	sudo sh -c "echo 1000 > /sys/module/usbcore/parameters/usbfs_memory_mb" 
+	
+NB! You can monitor bandwith usage with the linux tool iftop.
+
+install iftop:
+
+	sudo apt-get install iftop
+
+monitor bandwidth usage over a NIC like eth0:
+	
+	sudo iftop -i eth0
+	
+
+### Install LiDAR driver
+We use a ROS compatible [LiDAR driver](https://github.com/ouster-lidar/ouster_example/tree/master/ouster_ros) for verification of camera measurements, i.e. not a part of the core functionality. Follow the instructions in the github repository to create a catkin workspace. 
 
 
 ## Hardware
@@ -74,7 +133,8 @@ This section shows the specific hardware in use.
   - Lidar: [Ouster Os1](https://ouster.com/products/os1-lidar-sensor/).
   - PC: [Nvidia Jetson Xavier](https://developer.nvidia.com/embedded/jetson-agx-xavier-developer-kit).
   - DC/DC converters.
-  - PoE adapters and switch. 
+  - PoE adapters
+  - Switch / ethernet cables. 
   
   The figure below shows the power and ethernet interface between the hardware components and the On-Board System (OBS) for the USV.
   
@@ -82,24 +142,42 @@ This section shows the specific hardware in use.
 
 ## Basic usage
 
-### Camera driver
-We use a ROS compatible [camera driver](https://github.com/neufieldrobotics/spinnaker_sdk_camera_driver). By this, the camera driver and the object detection pipeline can interchange data via ROS topics. Follow the instructions in this github repository to create a catkin workspace. We use hardware triggering (GPIO connector) for stereo setup as described under "Multicamera Master-Slave Setup" in [github repo](https://github.com/neufieldrobotics/spinnaker_sdk_camera_driver). When GPIO cables are connected correctly, do the following:
-
-- Change camera ids to serial numbers of the actual cameras in params/stereo_camera_example.yaml.
-- Make sure left camera is master camera (primary).
-- in launch/acquisition.launch, change from test_params.yaml to stereo_camera_example.yaml (line 22). 
-
-
+### Launch camera driver
 To launch the driver, open a terminal and type:
 
     cd ~/spinnaker_ws
     source devel/setup.bash
     roslaunch spinnaker_sdk_camera_driver acquisition.launch
-    
 
+### Launch LiDAR driver
+To launch the driver, open a terminal and type:
 
-### LiDAR driver
-We use a ROS compatible [LiDAR driver](https://github.com/ouster-lidar/ouster_example/tree/master/ouster_ros) for verification of camera measurements, i.e. not a part of the core functionality. 
+    cd ~/myworkspace
+    source devel/setup.bash
+    roslaunch ouster_ros os1.launch os1_hostname:=os1-991837000010.local lidar_mode:=2048x10 os1_udp_dest:=192.168.11.219
+ 
+- <os1_hostname> can be the hostname (os1-991xxxxxxxxx) or IP of the OS1 (serial number).
+- <lidar_mode> is one of 512x10, 512x20, 1024x10, 1024x20, or 2048x10 (optical resolution).  
+- <udp_data_dest_ip> is the IP to which the sensor should send data (make sure it is on the 192.168.x.x subnet). 
+
+### Launch vision-based navigation pipeline
+Open a terminal and type the following:
+
+	cd ~/darknet_ws
+	source devel/setup.bash
+	roslaunch darknet_ros yolov3-spp.launch
+	
+Go into a second terminal and type the following:
+	
+	cd ~/darknet_ws2
+	source devel/setup.bash
+	roslaunch darknet_ros yolov3-spp.launch
+	
+
+	
+
+	
+
 
 
 **Credit: The pipeline is further extended and developed for 3D localization tasks based on relevant object detection frameworks such as [YOLO ROS: Real-Time Object Detection for ROS](https://github.com/leggedrobotics/darknet_ros) by Marko Bjelonic and [YOLO ROS: Real-Time Object Detection for ROS](https://github.com/pushkalkatara/darknet_ros) by Pushkal Katara.**
