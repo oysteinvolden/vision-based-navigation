@@ -76,19 +76,19 @@ Repeat to create a second ROS node (one per camera).
     
 NB! To be able to run two darknet_ros nodes in parallell, some modificaions for the second darknet_ros node is neccessary.
 
-- Go into darknet_ros/launch/darknet_ros.launch and
+- in darknet_ros/launch/darknet_ros.launch:
 	- change "darknet_ros" to "darknet_ros2" at line 16 and 17 (ns=darknet_ros2)
-	- change "darknet_ros" to "darknet_ros2" at line 20. Only change name, keep pkg and type the same.
+	- change "darknet_ros" to "darknet_ros2" at line 20. Only change name, keep pkg and type the same
 
-- Go into darknet_ros/config/ros.yaml and
+- in darknet_ros/config/ros.yaml:
 	- change topic name for detection image from /darknet_ros/detection_image to /darknet_ros/detection_image2
 
-- Go into darknet_ros/src/YoloRosTracker.cpp and
-	- change from "ros::NodeHandle nh" to "ros::NodeHandle nh2" (Constructor)
-	- change "nodeHandle(nh)" to "nodeHandle(nh2)" (next line in the code) 
+- in darknet_ros/src/YoloRosTracker.cpp:
+	- change from "ros::NodeHandle nh" to "ros::NodeHandle nh2" 
+	- change "nodeHandle(nh)" to "nodeHandle(nh2)"  
 
-- Go into darknet_ros/include/darknet_ros/YoloRosTracker.hpp and
-	- change from "explicit YoloRosTracker(ros::NodeHandle nh)" to "explicit YoloRosTracker(ros::NodeHandle nh2)".
+- in darknet_ros/include/darknet_ros/YoloRosTracker.hpp
+	- change from "explicit YoloRosTracker(ros::NodeHandle nh)" to "explicit YoloRosTracker(ros::NodeHandle nh2)"
  
  
 **Configuration**
@@ -96,24 +96,27 @@ NB! To be able to run two darknet_ros nodes in parallell, some modificaions for 
 It is assumed that the trained weights and configuration (cfg) file is available for YoloV3 (darknet). 
 
 - darknet folder:
-	- Adjust Makefile such that GPU, Opencv, CuDNN, CuDNN_HALF and OpenMP is enabled (uncommented). 
-	- Also enable jetson Xavier Arch and disable all others (in Makefile). 
+	- Adjust Makefile such that GPU, Opencv, CuDNN, CuDNN_HALF and OpenMP is enabled (uncommented)
+	- Also enable jetson Xavier Arch and disable all others (in Makefile). Then make locally in the darknet folder. 
 
-- darknet_ros:
-	- Put trained weights and cfg file in the yolo_network_config folder. 
-	- Update yolov3-spp.yaml in the darknet_ros/config folder so they match those used in the yolo_network_config folder. 
-	- Update ros.yaml in the darknet_ros/config folder to subscribe for correct topic: The topic under "camera_reading" should match the ros topic name sent from the camera driver, e.g. /camera_array/cam0/image_raw or /camera_array/cam1/image_raw. Just one camera topic name per ROS node. 
-	- Check that darknet_ros.launch and yolov3-spp.launch in the launch folder includes correct weights/cfg and yaml file (yolov3-spp.yaml). 
+- darknet_ros folder:
+	- in yolo_network_config:
+		- put trained weights and cfg file (under subfolders weights and cfg, respectively)
+	- in darknet_ros/config:
+		- yolov3-spp.yaml: Ensure the content match what is used in the yolo_network_config
+		- ros.yaml: The topic under "camera_reading" should match the ros topic name sent from the camera driver, e.g. /camera_array/cam0/image_raw or /camera_array/cam1/image_raw. Just use one camera topic name per ROS node for subscription
+	- in darknet_ros/launch:
+		- darknet_ros.launch and yolov3-spp.launch: Check that they include correct weights/cfg and yaml file (yolov3-spp.yaml)
 	
-NB! Calibration parameters and camera resolution is defined in the source code. 
+NB! Calibration parameters and camera resolution is defined in the source code for specific purposes. 
 
 
 ### Install and configure camera driver
 We use a ROS compatible [camera driver](https://github.com/neufieldrobotics/spinnaker_sdk_camera_driver). By this, the camera driver and the object detection pipeline can interchange data via ROS topics. Follow the instructions in this github repository to create a catkin workspace. We use hardware triggering (GPIO connector) for stereo setup as described under "Multicamera Master-Slave Setup" in the [github repo](https://github.com/neufieldrobotics/spinnaker_sdk_camera_driver). When GPIO cables are connected correctly, do the following:
 
-- Change camera ids to serial numbers of the actual cameras in params/stereo_camera_example.yaml.
-- Make sure left camera is master camera (primary).
-- in launch/acquisition.launch, change from test_params.yaml to stereo_camera_example.yaml (line 22). 
+- Change camera ids to serial numbers of the actual cameras in params/stereo_camera_example.yaml
+- Make sure left camera is master camera (primary)
+- in launch/acquisition.launch, change from test_params.yaml to stereo_camera_example.yaml (line 22)
 
 **Network configuration**
 
@@ -174,9 +177,9 @@ To launch the driver, open a terminal and type:
     source devel/setup.bash
     roslaunch ouster_ros os1.launch os1_hostname:=os1-991837000010.local lidar_mode:=2048x10 os1_udp_dest:=192.168.11.219
  
-- <os1_hostname> can be the hostname (os1-991xxxxxxxxx) or IP of the OS1 (serial number).
-- <lidar_mode> is one of 512x10, 512x20, 1024x10, 1024x20, or 2048x10 (optical resolution).  
-- <udp_data_dest_ip> is the IP to which the sensor should send data (make sure it is on the 192.168.x.x subnet). 
+- <os1_hostname> can be the hostname (os1-991xxxxxxxxx) or IP of the OS1 (serial number)
+- <lidar_mode> is one of 512x10, 512x20, 1024x10, 1024x20, or 2048x10 (optical resolution)
+- <udp_data_dest_ip> is the IP to which the sensor should send data (make sure it is on the 192.168.x.x subnet)
 
 ### Launch vision-based navigation pipeline
 Open a terminal and type the following:
