@@ -1,0 +1,13 @@
+yolo_model:
+
+  config_file:
+    name: yolov3-tiny_obj.cfg
+  weight_file:
+          name: yolov3-tiny_obj_3000.weights
+  threshold:
+    value: 0.5
+  detection_classes:
+    names:
+      - m1
+      - m2
+

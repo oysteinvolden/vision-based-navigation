@@ -1,0 +1,54 @@
+subscribers:
+
+  camera_reading:
+    topic: /camera_array/cam0/image_raw
+    queue_size: 1
+
+  bbox_reading:
+    topic: /darknet_ros/bbox_image_1 # subscribe to bbox of the other camera 
+    queue_size: 1
+  
+  bbox_reading_2:
+    topic: /darknet_ros/bbox_image_2 # marker 2
+    queue_size: 1
+
+  bbox_coord_1:
+    topic: /darknet_ros/bbox_coord_1 # subscribe to bbox coord of the other camera - marker 1
+    queue_size: 1
+
+  bbox_coord_2:
+    topic: /darknet_ros/bbox_coord_2 # subscribe to bbox coord of the other camera - marker 2 
+    queue_size: 1
+
+actions:
+
+  camera_reading:
+    name: /darknet_ros/check_for_objects
+
+publishers:
+
+  object_detector:
+    topic: /darknet_ros/found_object
+    queue_size: 1
+    latch: false
+
+  bounding_boxes:
+    topic: /darknet_ros/bounding_boxes
+    queue_size: 1
+    latch: false
+
+  detection_image:
+    topic: /darknet_ros/detection_image2
+    queue_size: 1
+    latch: true
+
+  camera_measurements:
+    topic: /darknet_ros/camera_measurements
+    queue_size: 1
+    latch: true
+
+image_view:
+
+  enable_opencv: true
+  wait_key_delay: 20
+  enable_console_output: false
