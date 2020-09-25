@@ -58,11 +58,11 @@ NB! There has been some issues when combining ROS melodic and OpenCV <= 4.x.x, s
 
 The darknet_ros package is used for the left camera, while the darknet_ros_2 package is used for the right camera.
 
-1. First clone the repo get access to both 
+1. First clone the repo get access to both.
 
 	   git clone --recursive https://github.com/oysteinvolden/vision-based-navigation.git
 	
-2. Create a catkin workspace
+2. Create a catkin workspace.
 
        mkdir -p darknet_ws/src
        cd darknet_ws/src
