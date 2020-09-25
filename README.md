@@ -60,18 +60,18 @@ The darknet_ros package is used for the left camera, while the darknet_ros_2 pac
 
 1. First clone the repo get access to both 
 
-	git clone --recursive https://github.com/oysteinvolden/vision-based-navigation.git
+	   git clone --recursive https://github.com/oysteinvolden/vision-based-navigation.git
 	
 2. Create a catkin workspace
 
-    mkdir -p darknet_ws/src
-    cd darknet_ws/src
+       mkdir -p darknet_ws/src
+       cd darknet_ws/src
 
 3. copy recursively the darknet_ros, darknet_ros_msgs and darknet folders from the cloned repository to the catkin environment (~/darknet_ws/src) and include ROS package for bridging opencv and ROS (vision_opencv).
 
-    git clone https://github.com/ros-perception/vision_opencv.git 
-    cd ..
-    catkin_make -DCMAKE_BUILD_TYPE=Release
+       git clone https://github.com/ros-perception/vision_opencv.git 
+       cd ..
+       catkin_make -DCMAKE_BUILD_TYPE=Release
     
 Repeat 2-3 for a second catkin workspace (e.g. ~/darknet_ws2) suitable for the right camera. Remember to copy recursively the darknet_ros_2 folder to the catkin environment (~/darknet_ws2/src) instead of the darknet_ros folder. 
     
