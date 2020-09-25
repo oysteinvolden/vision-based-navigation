@@ -114,9 +114,10 @@ NB! Calibration parameters and camera resolution is defined in the source code f
 ### Install and configure camera driver
 We use a ROS compatible [camera driver](https://github.com/neufieldrobotics/spinnaker_sdk_camera_driver). By this, the camera driver and the object detection pipeline can interchange data via ROS topics. Follow the instructions in this github repository to create a catkin workspace. We use hardware triggering (GPIO connector) for stereo setup as described under "Multicamera Master-Slave Setup" in the [github repo](https://github.com/neufieldrobotics/spinnaker_sdk_camera_driver). When GPIO cables are connected correctly, do the following:
 
-- Change camera ids to serial numbers of the actual cameras in params/stereo_camera_example.yaml
-- Make sure left camera is master camera (primary)
-- in launch/acquisition.launch, change from test_params.yaml to stereo_camera_example.yaml (line 22)
+- In params:
+	- stereo_camera_example.yaml: Change camera ids to serial numbers of the actual cameras. Make sure left camera is master camera (primary).
+- in launch:
+	- acquisition.launch: change from test_params.yaml to stereo_camera_example.yaml (line 22). 
 
 **Network configuration**
 
