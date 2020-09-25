@@ -67,7 +67,7 @@ The darknet_ros package is used for the left camera, while the darknet_ros_2 pac
        mkdir -p darknet_ws/src
        cd darknet_ws/src
 
-3. copy recursively the darknet_ros, darknet_ros_msgs and darknet folders from the cloned repository to the catkin environment (~/darknet_ws/src) and include ROS package for bridging opencv and ROS (vision_opencv).
+3. copy recursively the darknet_ros, darknet_ros_msgs and darknet folders from the cloned repository to the catkin environment (/darknet_ws/src) and include ROS package for bridging opencv and ROS (vision_opencv).
 
        git clone https://github.com/ros-perception/vision_opencv.git 
        cd ..
