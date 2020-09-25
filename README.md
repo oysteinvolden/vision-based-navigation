@@ -94,7 +94,7 @@ It is assumed that the trained weights and configuration (cfg) file is available
 	- in darknet_ros/launch:
 		- darknet_ros.launch and yolov3-spp.launch: Check that they include correct weights/cfg and yaml file (yolov3-spp.yaml)
 	
-NB! Calibration parameters and camera resolution is defined in the source code for specific purposes. 
+NB! Calibration parameters and camera resolution is defined in the source code for specific purposes. Marker specific configuration is also specified in the source code. 
 
 
 ### Install and configure camera driver
