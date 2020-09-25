@@ -56,41 +56,27 @@ NB! There has been some issues when combining ROS melodic and OpenCV <= 4.x.x, s
 
 ### Install and configure vision-based navigation pipeline
 
-Create a catkin workspace and include our ROS package as well as ROS package for bridging opencv and ROS (vision_opencv).
+The darknet_ros package is used for the left camera, while the darknet_ros_2 package is used for the right camera.
+
+1. First clone the repo get access to both 
+
+	git clone --recursive https://github.com/oysteinvolden/vision-based-navigation.git
+	
+2. Create a catkin workspace
 
     mkdir -p darknet_ws/src
     cd darknet_ws/src
-    git clone --recursive https://github.com/oysteinvolden/vision-based-navigation.git
+
+3. copy recursively the darknet_ros, darknet_ros_msgs and darknet folders from the cloned repository to the catkin environment (~/darknet_ws/src) and include ROS package for bridging opencv and ROS (vision_opencv).
+
     git clone https://github.com/ros-perception/vision_opencv.git 
     cd ..
     catkin_make -DCMAKE_BUILD_TYPE=Release
     
-Repeat to create a second ROS node (one per camera).
+Repeat 2-3 for a second catkin workspace (e.g. ~/darknet_ws2) suitable for the right camera. Remember to copy recursively the darknet_ros_2 folder to the catkin environment (~/darknet_ws2/src) instead of the darknet_ros folder. 
     
-    mkdir -p darknet_ws2/src
-    cd darknet_ws2/src
-    git clone --recursive https://github.com/oysteinvolden/vision-based-navigation.git
-    git clone https://github.com/ros-perception/vision_opencv.git 
-    cd ..
-    catkin_make -DCMAKE_BUILD_TYPE=Release
-    
-NB! To be able to run two darknet_ros nodes in parallell, some modificaions for the second darknet_ros node is neccessary.
+NB! Some modificaions for the darknet_ros package has been done so the two ROS nodes can run in parallell under the same ROS node name. 
 
-- in darknet_ros/launch/darknet_ros.launch:
-	- change "darknet_ros" to "darknet_ros2" at line 16 and 17 (ns=darknet_ros2)
-	- change "darknet_ros" to "darknet_ros2" at line 20. Only change name, keep pkg and type the same
-
-- in darknet_ros/config/ros.yaml:
-	- change topic name for detection image from /darknet_ros/detection_image to /darknet_ros/detection_image2
-
-- in darknet_ros/src/YoloRosTracker.cpp:
-	- change from "ros::NodeHandle nh" to "ros::NodeHandle nh2" 
-	- change "nodeHandle(nh)" to "nodeHandle(nh2)"  
-
-- in darknet_ros/include/darknet_ros/YoloRosTracker.hpp
-	- change from "explicit YoloRosTracker(ros::NodeHandle nh)" to "explicit YoloRosTracker(ros::NodeHandle nh2)"
- 
- 
 **Configuration**
 
 It is assumed that the trained weights and configuration (cfg) file is available for YoloV3 (darknet). 
