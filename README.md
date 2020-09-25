@@ -73,7 +73,9 @@ The darknet_ros package is used for the left camera, while the darknet_ros_2 pac
        cd ..
        catkin_make -DCMAKE_BUILD_TYPE=Release
     
-Repeat 2-3 for a second catkin workspace (e.g. ~/darknet_ws2 ) suitable for the right camera. Remember to copy recursively the darknet_ros_2 folder to the catkin environment (~/darknet_ws2/src) instead of the darknet_ros folder. 
+Repeat 2-3 for a second catkin workspace (e.g. ~/darknet_ws2) suitable for the right camera. Remember to copy recursively the darknet_ros_2 folder to the catkin environment (~/darknet_ws2/src) instead of the darknet_ros folder. 
+
+Repeat 2-3 for a second catkin workspace (e.g. ~/darknet_ws2) suitable for the right camera. Remember to copy recursively the darknet_ros_2 folder to the catkin environment (~/darknet_ws2/src) instead of the darknet_ros folder. 
 
 **Configuration**
 
