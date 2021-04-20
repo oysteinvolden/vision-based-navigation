@@ -146,6 +146,13 @@ This section shows the specific hardware in use.
   The figure below shows the power and ethernet interface between the hardware components and the On-Board System (OBS) for the USV.
   
   ![Hardware overview](doc/figures/hardware_design.png)
+  
+  
+## Dataset
+
+Datasets, model parameters and test scenarios can be found in the following link:
+https://drive.google.com/drive/u/0/folders/1jc0gy81dSRRfRxAGuXiN1P2s_waCPXsG
+
 
 ## Basic usage
 
