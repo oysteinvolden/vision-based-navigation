@@ -131,7 +131,7 @@ This section shows the specific hardware in use.
 ## Dataset
 
 Datasets, model parameters and test scenarios can be found in the following link:
-https://drive.google.com/drive/u/0/folders/1jc0gy81dSRRfRxAGuXiN1P2s_waCPXsG
+https://drive.google.com/drive/folders/1jc0gy81dSRRfRxAGuXiN1P2s_waCPXsG?usp=sharing
 
 
 ## Basic usage
