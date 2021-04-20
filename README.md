@@ -4,7 +4,7 @@
 This repo contains source code for vision-based navigation in ROS. We combine deep learning and traditional computer vision methods along with ArUco markers to obtain relative positioning between the camera and the marker. Both monocular and stereo vision is used for comparison. It is tested with Ubuntu 18.04 LTS and ROS melodic on arm-based 64-bit architecture (Nvidia Jetson Xavier). The figure below shows the high-level architecture with focus on stereo vision. 
 
 
-![Pipeline overview](doc/figures/overview2.png)
+![Pipeline overview](doc/figures/pipeline_overview.png)
 
 
 Please include the following reference when you use the toolbox:
@@ -51,7 +51,6 @@ This repo also provide a quick solution to setup a catkin workspace by running t
       cd script
       ./install_opencv4.1.1_Jetson.sh
  
-NB! If problems with OpenCV <= 4.x.x occur, try to install OpenCV <= 3.4.x (e.g. change 4.1.1 with 3.4.3 everywhere in install_opencv4.1.1_Jetson.sh)
 
 ### Install and configure vision-based navigation pipeline
 
@@ -104,26 +103,7 @@ We use a ROS compatible [camera driver](https://github.com/neufieldrobotics/spin
 - in launch:
 	- acquisition.launch: change from test_params.yaml to stereo_camera_example.yaml (line 22). 
 
-**Network configuration**
 
-We use persistant IP to maintain a stable connection, i.e. always reachable at the same IP address. We add an IP address on the 192.168.x.x subnet so we reach the cameras:
-
-	sudo ip a a 192.168.11.172 dev eth0
-
-Then, go into bashrc file (gedit ~/.bashrc) and set ROS_IP to 192.168.x.x. 
-
-If neccessary, increase udp buffer limit (approx 1000 MB/s) by typing the following in terminal:
-
-	sudo sysctl -w net.core.rmem_max=1000214400 
-	sudo sysctl -w net.core.rmem_default=1000214400 
-	
-If neccessary, increase usb buffer limit (approx 1000 MB/s) by typing the following in terminal:
-
-	sudo sh -c "echo 1000 > /sys/module/usbcore/parameters/usbfs_memory_mb" 
-	
-NB! You can monitor bandwith consumption over a NIC like eth0 with the linux tool iftop.
-	
-	sudo iftop -i eth0
 	
 
 ### Install LiDAR driver
@@ -145,7 +125,7 @@ This section shows the specific hardware in use.
   
   The figure below shows the power and ethernet interface between the hardware components and the On-Board System (OBS) for the USV.
   
-  ![Hardware overview](doc/figures/hardware_design.png)
+  ![Hardware overview](doc/figures/hardware_overview.png)
   
   
 ## Dataset
