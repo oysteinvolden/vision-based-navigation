@@ -123,7 +123,7 @@ This section shows the specific hardware in use.
   - PoE adapters.
   - Switch / ethernet cables. 
   
-  The figure below shows the power and ethernet interface between the hardware components and the On-Board System (OBS) for the USV.
+  The figure below shows the power and ethernet interface between the hardware components and the guidance, navigation, and conrol (GNC)computer for the USV.
   
   ![Hardware overview](doc/figures/hardware_overview.png)
   
