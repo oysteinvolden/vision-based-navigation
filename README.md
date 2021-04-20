@@ -7,7 +7,7 @@ This repo contains source code for vision-based navigation in ROS. We combine de
 ![Pipeline overview](doc/figures/pipeline_overview.png)
 
 
-Please include the following reference when you use the toolbox:
+Please include the following reference if you use the toolbox:
 Ø. Volden (2020)."Vision-Based Navigation in ROS". URL: https://github.com/oysteinvolden/vision-based-navigation
 
 Bibtex entry:
